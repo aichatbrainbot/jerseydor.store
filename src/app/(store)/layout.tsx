@@ -37,11 +37,20 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: SITE_URL,
     siteName: "JerseyDor",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "JerseyDor — Premium Football Streetwear",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "JerseyDor | Premium Football Jerseys",
     description: "Premium football jerseys, retro shirts, player version kits, and streetwear-ready football pieces with real product imagery.",
+    images: ["/og-image.png"],
   },
 };
 

@@ -11,7 +11,7 @@ export function ProductEmbed({ slug }: ProductEmbedProps) {
   if (!product) return null;
 
   return (
-    <div className="my-8 max-w-sm mx-auto">
+    <div className="not-prose my-12 max-w-sm mx-auto">
       <ProductCard product={product} />
     </div>
   );

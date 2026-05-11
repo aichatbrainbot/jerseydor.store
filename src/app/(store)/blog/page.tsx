@@ -32,6 +32,7 @@ export default function BlogIndexPage() {
                 src={featured.image}
                 alt={featured.title}
                 fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover transition duration-700 group-hover:scale-[1.025]"
                 priority
               />
@@ -63,6 +64,7 @@ export default function BlogIndexPage() {
                   src={post.image}
                   alt={post.title}
                   fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover transition duration-700 group-hover:scale-[1.025]"
                 />
               </div>

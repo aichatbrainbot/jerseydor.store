@@ -1,0 +1,25 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum InventoryStatus {
+  in_stock
+  out_of_stock
+}
+
+model ProductOverride {
+  slug            String           @id
+  title           String?
+  description     String?
+  price           Decimal?         @db.Decimal(10, 2)
+  inventoryStatus InventoryStatus?
+  published       Boolean?
+  featured        Boolean          @default(false)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+}

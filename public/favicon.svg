@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">JerseyDor favicon</title>
+  <desc id="desc">Ultra minimal JD jersey rail mark.</desc>
+  <defs>
+    <linearGradient id="markAccent" x1="16" y1="16" x2="48" y2="50" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6D7CFF"/>
+      <stop offset="1" stop-color="#7A5CFF"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="#0B0B0F"/>
+  <path d="M22 13H42L50 22L58 25L53 39L46 36V55H18V36L11 39L6 25L14 22L22 13Z" fill="#F5F5F2"/>
+  <path d="M26 13C27 18 29 21 32 21C35 21 37 18 38 13H34C33 15 32 16 32 16C32 16 31 15 30 13H26Z" fill="#0B0B0F"/>
+  <path d="M25 27V42C25 48 22 52 16 55" stroke="#0B0B0F" stroke-width="4.4" stroke-linecap="round"/>
+  <path d="M34 27H40C47 27 51 32 51 40C51 48 47 53 40 53H34V27Z" stroke="#0B0B0F" stroke-width="4.4" stroke-linejoin="round"/>
+  <path d="M17 42H47" stroke="url(#markAccent)" stroke-width="4" stroke-linecap="round"/>
+</svg>

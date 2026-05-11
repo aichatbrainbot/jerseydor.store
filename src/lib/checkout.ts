@@ -1,5 +1,5 @@
 import { getPublishedProductBySlug } from '@/lib/catalog';
-import { buildShopifyCheckoutPlan } from '@/lib/shopify-checkout';
+import { buildShopifyCheckoutPlanWithStorefront } from '@/lib/shopify-checkout';
 import { getCheckoutProviderConfig, type CheckoutProvider } from '@/lib/checkout-config';
 import type { CartItem } from '@/lib/cart';
 
@@ -179,15 +179,21 @@ async function buildShopifyCheckoutSession(lines: ServerCheckoutLine[]): Promise
     };
   }
 
-  const plan = buildShopifyCheckoutPlan({
-    items: lines.map((line) => ({
-      slug: line.slug,
-      quantity: line.quantity,
-      size: line.size,
-      customName: line.customName,
-      customNumber: line.customNumber,
-    })),
-  });
+  const plan = await buildShopifyCheckoutPlanWithStorefront(
+    {
+      items: lines.map((line) => ({
+        slug: line.slug,
+        quantity: line.quantity,
+        size: line.size,
+        customName: line.customName,
+        customNumber: line.customNumber,
+      })),
+    },
+    {
+      shopifyStoreDomain: config.shopifyStoreDomain,
+      shopifyStorefrontToken: config.shopifyStorefrontToken,
+    }
+  );
 
   if (!plan.ready) {
     return {

@@ -21,6 +21,11 @@
 # production
 /build
 
+# local Shopify import/export files
+/shopify_*.csv
+/shopify_import_chunks/
+/scripts/generate-live-shopify-csv.cjs
+
 # misc
 .DS_Store
 *.pem

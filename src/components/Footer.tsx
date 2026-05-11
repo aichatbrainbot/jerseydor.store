@@ -31,18 +31,18 @@ export function Footer() {
             <CurrencySelector />
           </div>
           <div className="flex gap-4">
-            <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">
+            <Link href="/" aria-label="JerseyDor website" className="text-muted-foreground hover:text-primary transition-colors">
               <Globe className="h-5 w-5" />
               <span className="sr-only">Website</span>
             </Link>
-            <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">
+            <Link href="/contact" aria-label="Contact JerseyDor" className="text-muted-foreground hover:text-primary transition-colors">
               <MessageCircle className="h-5 w-5" />
-              <span className="sr-only">Social</span>
+              <span className="sr-only">Contact</span>
             </Link>
-            <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">
+            <a href="mailto:support@jerseydor.store" aria-label="Email JerseyDor support" className="text-muted-foreground hover:text-primary transition-colors">
               <Mail className="h-5 w-5" />
               <span className="sr-only">Email</span>
-            </Link>
+            </a>
           </div>
         </div>
         
@@ -52,7 +52,7 @@ export function Footer() {
             <li><Link href="/products" className="hover:text-primary transition-colors">All Products</Link></li>
             <li><Link href="/collections/football-shirts" className="hover:text-primary transition-colors">Football Shirts</Link></li>
             <li><Link href="/collections/retro-archive" className="hover:text-primary transition-colors">Retro Jerseys</Link></li>
-            <li><Link href="/products?query=custom" className="hover:text-primary transition-colors">Customizable Pieces</Link></li>
+            <li><Link href="/collections/player-version" className="hover:text-primary transition-colors">Customizable Pieces</Link></li>
           </ul>
         </div>
 

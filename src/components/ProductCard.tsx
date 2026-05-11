@@ -49,9 +49,9 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
         <div className="flex items-start justify-between gap-3 px-1 pb-2 pt-3 md:gap-4 md:pt-4">
           <div className="min-w-0">
-            <h3 className="line-clamp-2 font-heading text-base font-bold leading-snug text-foreground transition-colors group-hover:text-primary md:text-lg">
+            <p className="line-clamp-2 font-heading text-base font-bold leading-snug text-foreground transition-colors group-hover:text-primary md:text-lg">
               {product.title}
-            </h3>
+            </p>
             <p className="mt-1 line-clamp-1 font-display text-xs text-muted-foreground md:text-sm">{product.tags.join(' / ')}</p>
           </div>
           <div className="flex shrink-0 flex-col items-end gap-2">

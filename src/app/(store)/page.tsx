@@ -34,11 +34,11 @@ function byCollection(products: Product[], collectionSlug: string, limit: number
 }
 
 const keywordLinks = [
-  { label: 'lamine yamal 7 year old jersey', href: '/products?query=lamine-yamal-7-year-old-jersey' },
-  { label: 'socceroos jersey', href: '/products?query=socceroos-jersey' },
-  { label: 'chelsea shirts for sale', href: '/products?query=chelsea-shirts-for-sale' },
-  { label: 'arsenal jersey', href: '/products?query=arsenal-jersey' },
-  { label: 'crystal palace kit', href: '/products?query=crystal-palace-kit' },
+  { label: 'club football shirts', href: '/collections/football-shirts' },
+  { label: 'retro jerseys', href: '/collections/retro-archive' },
+  { label: 'player version shirts', href: '/collections/player-version' },
+  { label: 'kids football kits', href: '/collections/kids-kits' },
+  { label: 'training apparel', href: '/collections/training-and-apparel' },
 ];
 
 const trustItems = [
@@ -51,7 +51,7 @@ export default function Home() {
   const products = getPublishedProducts();
   const heroProducts = byQuery(products, ['barcelona', 'arsenal', 'france 2026', 'portugal 2026'], 4);
   const worldCupProducts = byQuery(products, ['2026', 'world cup', 'france 2026', 'portugal 2026', 'argentina 2026', 'scotland 2026'], 4);
-  const topSellingProducts = byQuery(products, ['lamine', 'arsenal', 'barcelona', 'portugal', 'napoli', 'france', 'chelsea', 'bayern'], 8);
+  const topSellingProducts = byQuery(products, ['lamine', 'arsenal', 'barcelona', 'portugal', 'napoli', 'france', 'chelsea', 'bayern'], 4);
   const newAdditions = products.filter((product) => /shirt|jersey|kit/i.test(product.title)).slice(0, 4);
   const retroProducts = byCollection(products, 'retro-archive', 4);
   const trainingProducts = byCollection(products, 'training-and-apparel', 4);
@@ -76,8 +76,8 @@ export default function Home() {
             The store for football shirts that look good off pitch.
           </h1>
           <p className="mt-6 max-w-xl text-base leading-7 text-muted-foreground">
-            Browse real product images across World Cup 26 shirts, club jerseys, retro jerseys,
-            kids kits, women shirts, and player version products.
+            JerseyDor is the store for football shirts built for off-pitch style, with real product images across
+            World Cup 26 shirts, club jerseys, retro jerseys, kids kits, women shirts, and player version products.
           </p>
           <div className="mt-6 grid grid-cols-3 gap-2 md:hidden">
             {['Dark retail', 'Real images', 'Global prices'].map((item) => (
@@ -149,7 +149,7 @@ export default function Home() {
       <ProductSection
         eyebrow="World Cup 26"
         title="World Cup 26 shirts and national team edits."
-        href="/products?query=2026"
+        href="/collections/football-shirts"
         products={worldCupProducts}
       />
 
@@ -284,7 +284,7 @@ export default function Home() {
             <p className="brand-eyebrow mb-4">Popular searches</p>
             <h2 className="font-heading text-3xl font-black leading-tight md:text-5xl">SEO paths with real product intent.</h2>
             <p className="mt-5 text-base leading-7 text-muted-foreground">
-              These keyword hubs link directly into product search results instead of sitting as empty text.
+              These category hubs link directly into crawlable football shirt collections instead of parameter-based search URLs.
             </p>
           </div>
           <div className="grid gap-3 sm:grid-cols-2">

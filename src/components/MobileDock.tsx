@@ -127,14 +127,19 @@ export function MobileDock() {
             </div>
           </form>
           <div className="mt-5 grid grid-cols-2 gap-2">
-            {['arsenal jersey', 'chelsea shirts', 'retro jerseys', 'kids kits'].map((term) => (
+            {[
+              { label: 'arsenal jersey', href: '/collections/football-shirts' },
+              { label: 'chelsea shirts', href: '/collections/football-shirts' },
+              { label: 'retro jerseys', href: '/collections/retro-archive' },
+              { label: 'kids kits', href: '/collections/kids-kits' },
+            ].map((item) => (
               <Link
-                key={term}
-                href={`/products?query=${term.replaceAll(' ', '-')}`}
+                key={item.label}
+                href={item.href}
                 className="rounded-full border border-border/70 px-3 py-2 text-center font-display text-xs font-semibold text-muted-foreground"
                 onClick={() => setIsSearchOpen(false)}
               >
-                {term}
+                {item.label}
               </Link>
             ))}
           </div>

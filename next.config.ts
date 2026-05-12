@@ -16,6 +16,53 @@ const nextConfig: NextConfig = {
         destination: 'https://jerseydor.store/:path*',
         permanent: true,
       },
+      // Legacy Shopify /pages/* redirects
+      {
+        source: '/pages/returns-refunds',
+        destination: '/returns',
+        permanent: true,
+      },
+      {
+        source: '/pages/refund-policy',
+        destination: '/returns',
+        permanent: true,
+      },
+      {
+        source: '/pages/privacy-policy',
+        destination: '/privacy-policy',
+        permanent: true,
+      },
+      {
+        source: '/pages/shipping',
+        destination: '/shipping',
+        permanent: true,
+      },
+      {
+        source: '/pages/shipping-policy',
+        destination: '/shipping',
+        permanent: true,
+      },
+      {
+        source: '/pages/terms-of-service',
+        destination: '/terms-of-service',
+        permanent: true,
+      },
+      {
+        source: '/pages/contact',
+        destination: '/contact',
+        permanent: true,
+      },
+      {
+        source: '/pages/size-guide',
+        destination: '/size-guide',
+        permanent: true,
+      },
+      // Catch-all for any other /pages/ routes to redirect to home
+      {
+        source: '/pages/:slug',
+        destination: '/',
+        permanent: true,
+      },
     ];
   },
   images: {

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Outfit, Space_Grotesk } from "next/font/google";
 import "./globals.css";
+import Clarity from "@/components/Clarity";
 
 const SITE_URL = "https://jerseydor.store";
 
@@ -85,6 +86,7 @@ export default function RootLayout({
         className="min-h-full font-sans bg-background text-foreground"
       >
         {children}
+        <Clarity />
       </body>
     </html>
   );

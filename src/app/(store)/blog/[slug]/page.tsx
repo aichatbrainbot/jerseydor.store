@@ -26,7 +26,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: 'article',
       title: post.title,
       description: post.excerpt,
-      images: [{ url: post.image, width: 1200, height: 630, alt: post.title }],
+      images: [{ url: post.image || 'https://jerseydor.store/og-image.png', width: 1200, height: 630, alt: post.title }],
+      url: `/blog/${post.slug}`,
       publishedTime: post.date,
       authors: [post.author],
       siteName: 'JerseyDor',
@@ -35,7 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       card: 'summary_large_image',
       title: post.title,
       description: post.excerpt,
-      images: [post.image],
+      images: [post.image || 'https://jerseydor.store/og-image.png'],
     },
   };
 }

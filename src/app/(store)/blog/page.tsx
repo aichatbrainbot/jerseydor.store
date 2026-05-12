@@ -7,6 +7,18 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Journal & Editorials',
   description: 'Football fashion editorials, styling guides, and streetwear culture from JerseyDor.',
+  openGraph: {
+    title: 'Journal & Editorials',
+    description: 'Football fashion editorials, styling guides, and streetwear culture from JerseyDor.',
+    url: '/blog',
+    images: ['https://jerseydor.store/og-image.png'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Journal & Editorials',
+    description: 'Football fashion editorials, styling guides, and streetwear culture from JerseyDor.',
+    images: ['https://jerseydor.store/og-image.png'],
+  },
 };
 
 export default function BlogIndexPage() {

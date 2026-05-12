@@ -122,6 +122,7 @@ export default function Home() {
                 fill
                 className="object-cover transition duration-700 group-hover:scale-[1.04]"
                 sizes="(max-width: 1024px) 50vw, 25vw"
+                priority
               />
               <div className="absolute inset-0 bg-[linear-gradient(0deg,rgba(5,7,12,0.82),rgba(5,7,12,0.05))]" />
               <div className="absolute inset-x-0 bottom-0 p-4">

@@ -44,7 +44,7 @@ export const metadata: Metadata = {
       "Shop premium football jerseys styled for the streets. Retro kits, oversized silhouettes, and editorial drops.",
     images: [
       {
-        url: "/og-image.png",
+        url: "https://jerseydor.store/og-image.png",
         width: 1200,
         height: 630,
         alt: "JerseyDor — Premium Football Streetwear",
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     title: "JerseyDor — Premium Football Streetwear",
     description:
       "Shop premium football jerseys styled for the streets. Retro kits, oversized silhouettes, and editorial drops.",
-    images: ["/og-image.png"],
+    images: ["https://jerseydor.store/og-image.png"],
     creator: "@jerseydor",
   },
   icons: {

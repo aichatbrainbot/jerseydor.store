@@ -53,6 +53,18 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
     alternates: {
       canonical: '/products',
     },
+    openGraph: {
+      title: productsMetadata.title,
+      description: productsMetadata.description,
+      url: '/products',
+      images: ['https://jerseydor.store/og-image.png'],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: productsMetadata.title,
+      description: productsMetadata.description,
+      images: ['https://jerseydor.store/og-image.png'],
+    },
     robots: shouldNoindex
       ? {
           index: false,
@@ -171,8 +183,51 @@ export default async function ProductsPage({ searchParams }: Props) {
     },
   ];
 
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://jerseydor.store',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Products',
+        item: 'https://jerseydor.store/products',
+      },
+    ],
+  };
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: productsMetadata.title,
+    description: productsMetadata.description,
+    url: 'https://jerseydor.store/products',
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: visibleProducts.map((product, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        url: `https://jerseydor.store/products/${product.slug}`,
+      })),
+    },
+  };
+
   return (
     <div className="brand-container py-14 md:py-24">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <header className="mb-12 grid gap-6 md:grid-cols-[1fr_0.8fr] md:items-end">
         <div>
           <p className="brand-eyebrow mb-5">Shop</p>

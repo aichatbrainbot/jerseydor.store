@@ -48,7 +48,14 @@ export async function generateMetadata(
     openGraph: {
       title: product.title,
       description,
-      images: [product.image],
+      images: [product.image || 'https://jerseydor.store/og-image.png'],
+      url: `/products/${product.slug}`,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: product.title,
+      description,
+      images: [product.image || 'https://jerseydor.store/og-image.png'],
     },
   };
 }
@@ -61,16 +68,23 @@ export default async function ProductPage({ params }: Props) {
     notFound();
   }
 
-  const relatedProducts = getPublishedProducts()
+  let relatedProducts = getPublishedProducts()
     .filter(p => p.collectionSlug === product.collectionSlug)
     .filter(p => p.id !== product.id)
     .slice(0, 4);
+
+  if (relatedProducts.length < 4) {
+    const fallbackProducts = getPublishedProducts()
+      .filter(p => p.id !== product.id && !relatedProducts.some(r => r.id === p.id))
+      .slice(0, 4 - relatedProducts.length);
+    relatedProducts = [...relatedProducts, ...fallbackProducts];
+  }
 
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: product.title,
-    image: product.image,
+    image: [product.image, ...product.gallery],
     description: product.description.slice(0, 160).replace(/#/g, '').trim(),
     brand: product.brand
       ? {

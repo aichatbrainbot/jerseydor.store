@@ -2,7 +2,13 @@ import { MetadataRoute } from 'next';
 import { collections } from '@/data/collections';
 import { blogPosts } from '@/data/blog';
 import { legalPages } from '@/data/legal';
-import { getIndexableProducts } from '@/lib/catalog';
+import { getIndexableProducts, getPublishedProducts } from '@/lib/catalog';
+
+const MIN_INDEXABLE_COLLECTION_PRODUCTS = 4;
+
+function isThinCollection(collectionSlug: string) {
+  return getPublishedProducts().filter((product) => product.collectionSlug === collectionSlug).length < MIN_INDEXABLE_COLLECTION_PRODUCTS;
+}
 
 export default function sitemap(): MetadataRoute.Sitemap {
 const baseUrl = 'https://jerseydor.store';
@@ -14,12 +20,14 @@ const baseUrl = 'https://jerseydor.store';
     priority: 0.8,
   }));
 
-  const collectionUrls = collections.map((collection) => ({
-    url: `${baseUrl}/collections/${collection.slug}`,
-    lastModified: new Date(),
-    changeFrequency: 'weekly' as const,
-    priority: 0.9,
-  }));
+  const collectionUrls = collections
+    .filter((collection) => !isThinCollection(collection.slug))
+    .map((collection) => ({
+      url: `${baseUrl}/collections/${collection.slug}`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.9,
+    }));
 
   const blogUrls = blogPosts.map((post) => ({
     url: `${baseUrl}/blog/${post.slug}`,

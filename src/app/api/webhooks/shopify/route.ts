@@ -4,6 +4,8 @@ import { prisma } from '@/lib/db';
 import { sendOrderConfirmationEmail, sendAdminNewOrderNotification, sendShippingUpdateEmail } from '@/lib/email';
 import type { TransactionalOrder, TransactionalOrderItem, ShippingUpdateEmailInput } from '@/lib/email';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: Request) {
   try {
     const rawBody = await request.text();

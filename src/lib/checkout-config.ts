@@ -18,9 +18,19 @@ function optionalEnv(value: string | undefined) {
   return normalized ? normalized : undefined;
 }
 
-export function getCheckoutProviderConfig(): CheckoutProviderConfig {
+import { prisma } from '@/lib/db';
+
+export async function getCheckoutProviderConfig(): Promise<CheckoutProviderConfig> {
+  const settings = await prisma.storeSettings.findUnique({
+    where: { id: 'global' },
+    select: { checkoutProvider: true }
+  });
+
+  const dbProvider = settings?.checkoutProvider;
+  const activeProvider = normalizeProvider(dbProvider || optionalEnv(process.env.CHECKOUT_PROVIDER));
+
   return {
-    provider: normalizeProvider(optionalEnv(process.env.CHECKOUT_PROVIDER)),
+    provider: activeProvider,
     stripeSecretKey: optionalEnv(process.env.STRIPE_SECRET_KEY),
     stripePublishableKey: optionalEnv(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY),
     shopifyStoreDomain: optionalEnv(process.env.SHOPIFY_STORE_DOMAIN),

@@ -37,7 +37,8 @@ function normalizeQuantity(value: number) {
   return Number.isInteger(value) && value > 0 && value <= 20 ? value : undefined;
 }
 
-function buildServerCheckoutLines(items: CheckoutCartLineInput[]): CheckoutSessionResult | ServerCheckoutLine[] {
+async function buildServerCheckoutLines(items: CheckoutCartLineInput[]): Promise<CheckoutSessionResult | ServerCheckoutLine[]> {
+  const config = await getCheckoutProviderConfig();
   const lines: ServerCheckoutLine[] = [];
 
   for (const item of items) {
@@ -46,7 +47,7 @@ function buildServerCheckoutLines(items: CheckoutCartLineInput[]): CheckoutSessi
     if (!quantity) {
       return {
         ok: false,
-        provider: getCheckoutProviderConfig().provider,
+        provider: config.provider,
         error: 'Cart contains an invalid quantity.',
         statusCode: 400,
       };
@@ -57,7 +58,7 @@ function buildServerCheckoutLines(items: CheckoutCartLineInput[]): CheckoutSessi
     if (!product) {
       return {
         ok: false,
-        provider: getCheckoutProviderConfig().provider,
+        provider: config.provider,
         error: 'Cart contains an unpublished or unavailable product.',
         statusCode: 400,
       };
@@ -66,7 +67,7 @@ function buildServerCheckoutLines(items: CheckoutCartLineInput[]): CheckoutSessi
     if (product.inventoryStatus === 'out_of_stock') {
       return {
         ok: false,
-        provider: getCheckoutProviderConfig().provider,
+        provider: config.provider,
         error: `${product.title} is currently out of stock.`,
         statusCode: 400,
       };
@@ -91,7 +92,7 @@ function buildServerCheckoutLines(items: CheckoutCartLineInput[]): CheckoutSessi
   if (lines.length === 0) {
     return {
       ok: false,
-      provider: getCheckoutProviderConfig().provider,
+      provider: config.provider,
       error: 'Cart is empty.',
       statusCode: 400,
     };
@@ -109,7 +110,7 @@ function buildMockCheckoutSession(request: Request): CheckoutSessionResult {
 }
 
 async function buildStripeCheckoutSession(request: Request, lines: ServerCheckoutLine[]): Promise<CheckoutSessionResult> {
-  const config = getCheckoutProviderConfig();
+  const config = await getCheckoutProviderConfig();
 
   if (!config.stripeSecretKey) {
     return {
@@ -168,7 +169,7 @@ async function buildStripeCheckoutSession(request: Request, lines: ServerCheckou
 }
 
 async function buildShopifyCheckoutSession(lines: ServerCheckoutLine[]): Promise<CheckoutSessionResult> {
-  const config = getCheckoutProviderConfig();
+  const config = await getCheckoutProviderConfig();
 
   if (!config.shopifyStoreDomain || !config.shopifyStorefrontToken) {
     return {
@@ -254,8 +255,8 @@ async function buildShopifyCheckoutSession(lines: ServerCheckoutLine[]): Promise
 }
 
 export async function createCheckoutSession(request: Request, items: CheckoutCartLineInput[]): Promise<CheckoutSessionResult> {
-  const config = getCheckoutProviderConfig();
-  const serverLines = buildServerCheckoutLines(items);
+  const config = await getCheckoutProviderConfig();
+  const serverLines = await buildServerCheckoutLines(items);
 
   if (!Array.isArray(serverLines)) {
     return serverLines;

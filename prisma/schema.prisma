@@ -3,8 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 enum InventoryStatus {
@@ -22,4 +23,139 @@ model ProductOverride {
   featured        Boolean          @default(false)
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
+}
+
+model Customer {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  firstName String?
+  lastName  String?
+  phone     String?
+  orders    Order[]
+  conversations SupportConversation[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum OrderStatus {
+  pending
+  paid
+  processing
+  shipped
+  delivered
+  cancelled
+  refunded
+}
+
+model Order {
+  id              String      @id @default(uuid())
+  orderNumber     String      @unique // e.g., #1001
+  customerId      String?
+  customer        Customer?   @relation(fields: [customerId], references: [id])
+  status          OrderStatus @default(pending)
+  totalAmount     Decimal     @db.Decimal(10, 2)
+  currency        String      @default("USD")
+  items           Json        
+  shippingAddress Json?
+  billingAddress  Json?
+  trackingNumber          String?
+  trackingUrl             String?
+  shopifyOrderId          String?     @unique
+  confirmationEmailSent   Boolean     @default(false)
+  shippingUpdateEmailSent Boolean     @default(false)
+  notes                   OrderNote[]
+  conversations   SupportConversation[]
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+}
+
+model OrderNote {
+  id        String   @id @default(uuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  content   String
+  author    String   // Admin email or name
+  createdAt DateTime @default(now())
+}
+
+enum ConversationStatus {
+  open
+  resolved
+  closed
+}
+
+model SupportConversation {
+  id         String             @id @default(uuid())
+  customerId String?
+  customer   Customer?          @relation(fields: [customerId], references: [id])
+  orderId    String?
+  order      Order?             @relation(fields: [orderId], references: [id])
+  subject    String
+  status     ConversationStatus @default(open)
+  messages   SupportMessage[]
+  createdAt  DateTime           @default(now())
+  updatedAt  DateTime           @updatedAt
+}
+
+model SupportMessage {
+  id             String              @id @default(uuid())
+  conversationId String
+  conversation   SupportConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender         String              // 'customer' or 'admin'
+  content        String
+  read           Boolean             @default(false)
+  createdAt      DateTime            @default(now())
+}
+
+model AdminActivity {
+  id        String   @id @default(uuid())
+  action    String
+  entity    String   // e.g. 'Order', 'Product'
+  entityId  String
+  details   Json?
+  admin     String   // Admin email/id
+  createdAt DateTime @default(now())
+}
+
+model StoreSettings {
+  id               String   @id @default("global")
+  storeName        String   @default("JerseyDor")
+  fromEmail        String   @default("hello@jerseydor.store")
+  supportEmail     String   @default("support@jerseydor.store")
+  primaryLanguage  String   @default("en")
+  storeCurrency    String   @default("USD")
+  checkoutProvider String   @default("shopify")
+  updatedAt        DateTime @updatedAt
+}
+
+model SeoSettings {
+  id                    String   @id @default("global")
+  globalSiteTitle       String   @default("JerseyDor | The Best Retro & Modern Football Jerseys")
+  globalMetaDescription String   @default("Discover premium retro football shirts, player-issue kits, and modern jerseys at JerseyDor.")
+  defaultOgImage        String   @default("https://cdn.shopify.com/s/files/1/0684/9783/4240/files/og-image.jpg")
+  updatedAt             DateTime @updatedAt
+}
+
+model Collection {
+  slug                String   @id
+  title               String
+  description         String?
+  image               String?
+  shopifyCollectionId String?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
+
+model AbandonedCheckout {
+  id                  String   @id // Shopify Checkout ID
+  customerEmail       String
+  customerName        String?
+  totalAmount         Decimal  @db.Decimal(10, 2)
+  currency            String   @default("USD")
+  items               Json     // Array of items in cart
+  recoveryUrl         String   // Shopify recovery link
+  completed           Boolean  @default(false)
+  manualReminderSent  Boolean  @default(false)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
 }

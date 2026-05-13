@@ -3,15 +3,18 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Database, FileSearch, Layers3, LogOut, Package, Settings, ShieldCheck, ShoppingBag } from 'lucide-react';
+import { Database, FileSearch, Layers3, LogOut, Package, Settings, ShieldCheck, ShoppingBag, ShoppingCart, LayoutDashboard, MessageSquare } from 'lucide-react';
 import type { AdminProductOverrideStorageMode } from '@/lib/admin-product-overrides';
 
 const adminSections = [
-  { label: 'Products', icon: Package, href: '/admin' },
-  { label: 'Collections', icon: Layers3, href: '/admin/collections' },
+  { label: 'Dashboard', icon: LayoutDashboard, href: '/admin' },
   { label: 'Orders', icon: ShoppingBag, href: '/admin/orders' },
-  { label: 'Merchant', icon: ShieldCheck, href: '/admin/merchant' },
+  { label: 'Abandoned', icon: ShoppingCart, href: '/admin/abandoned' },
+  { label: 'Products', icon: Package, href: '/admin/products' },
+  { label: 'Inbox', icon: MessageSquare, href: '/admin/inbox' },
+  { label: 'Collections', icon: Layers3, href: '/admin/collections' },
   { label: 'SEO', icon: FileSearch, href: '/admin/seo' },
+  { label: 'Merchant', icon: ShieldCheck, href: '/admin/merchant' },
   { label: 'Settings', icon: Settings, href: '/admin/settings' },
 ];
 

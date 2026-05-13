@@ -2,17 +2,45 @@ import type { Metadata } from 'next';
 import { Settings, Save } from 'lucide-react';
 import { getAdminProductOverrideStorageMode } from '@/lib/admin-product-overrides';
 import { AdminDashboardLayout } from '@/components/admin/AdminDashboardLayout';
+import { getStoreSettings, saveStoreSettings } from '@/lib/admin-settings-db';
+import { consumeRateLimit } from '@/lib/admin-rate-limit';
+import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
+
+import { revalidatePath } from 'next/cache';
 
 export const metadata: Metadata = {
   title: 'Settings | JerseyDor Admin',
   robots: { index: false, follow: false },
 };
 
-export default function AdminSettingsPage() {
+export default async function AdminSettingsPage(props: { searchParams: Promise<any> }) {
+  const searchParams = await props.searchParams;
   const storageMode = getAdminProductOverrideStorageMode();
-  
-  const fromEmail = process.env.STORE_EMAIL_FROM || '';
-  const supportEmail = process.env.STORE_SUPPORT_EMAIL || '';
+  const settings = await getStoreSettings();
+
+  async function handleSave(formData: FormData) {
+    'use server';
+    const reqHeaders = await headers();
+    const ip = reqHeaders.get('x-forwarded-for')?.split(',')[0] || reqHeaders.get('x-real-ip') || 'local';
+    const limit = consumeRateLimit(`save-settings:${ip}`, 10, 60000);
+    
+    if (!limit.allowed) {
+      redirect(`/admin/settings?error=rate_limit`);
+    }
+
+    await saveStoreSettings({
+      storeName: formData.get('storeName') as string,
+      fromEmail: formData.get('fromEmail') as string,
+      supportEmail: formData.get('supportEmail') as string,
+      primaryLanguage: formData.get('primaryLanguage') as string,
+      storeCurrency: formData.get('storeCurrency') as string,
+      checkoutProvider: settings.checkoutProvider,
+    });
+
+    revalidatePath('/', 'layout');
+    redirect('/admin/settings?success=1');
+  }
 
   return (
     <AdminDashboardLayout storageMode={storageMode}>
@@ -31,18 +59,30 @@ export default function AdminSettingsPage() {
         </div>
       </header>
 
+      {searchParams.success && (
+        <div className="mb-4 rounded-md bg-emerald-500/10 border border-emerald-500/20 p-3 text-sm text-emerald-400 font-medium">
+          Settings saved successfully.
+        </div>
+      )}
+      {searchParams.error === 'rate_limit' && (
+        <div className="mb-4 rounded-md bg-destructive/10 border border-destructive/20 p-3 text-sm text-destructive font-medium">
+          You are saving too fast. Please wait a moment.
+        </div>
+      )}
+
       <div className="brand-panel p-5 max-w-4xl">
-        <form className="space-y-6">
+        <form action={handleSave} className="space-y-6">
           <div className="space-y-4">
             <h2 className="font-heading text-lg font-bold border-b border-border/60 pb-2">Store Profile</h2>
             
             <div className="space-y-1.5">
               <label className="font-display text-[10px] font-semibold uppercase text-muted-foreground">Store Name</label>
               <input 
+                name="storeName"
                 type="text" 
-                defaultValue="JerseyDor"
-                disabled
-                className="flex h-10 w-full items-center rounded-md border border-border/70 bg-background/70 px-3 text-sm text-foreground opacity-70" 
+                defaultValue={settings.storeName}
+                required
+                className="flex h-10 w-full items-center rounded-md border border-border/70 bg-background/70 px-3 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-primary" 
               />
             </div>
             
@@ -50,19 +90,21 @@ export default function AdminSettingsPage() {
               <div className="space-y-1.5">
                 <label className="font-display text-[10px] font-semibold uppercase text-muted-foreground">System Email (From)</label>
                 <input 
+                  name="fromEmail"
                   type="email" 
-                  defaultValue={fromEmail}
-                  disabled
-                  className="flex h-10 w-full items-center rounded-md border border-border/70 bg-background/70 px-3 text-sm text-foreground opacity-70" 
+                  defaultValue={settings.fromEmail}
+                  required
+                  className="flex h-10 w-full items-center rounded-md border border-border/70 bg-background/70 px-3 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-primary" 
                 />
               </div>
               <div className="space-y-1.5">
                 <label className="font-display text-[10px] font-semibold uppercase text-muted-foreground">Support Email</label>
                 <input 
+                  name="supportEmail"
                   type="email" 
-                  defaultValue={supportEmail}
-                  disabled
-                  className="flex h-10 w-full items-center rounded-md border border-border/70 bg-background/70 px-3 text-sm text-foreground opacity-70" 
+                  defaultValue={settings.supportEmail}
+                  required
+                  className="flex h-10 w-full items-center rounded-md border border-border/70 bg-background/70 px-3 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-primary" 
                 />
               </div>
             </div>
@@ -74,18 +116,18 @@ export default function AdminSettingsPage() {
             <div className="grid md:grid-cols-2 gap-4">
               <div className="space-y-1.5">
                 <label className="font-display text-[10px] font-semibold uppercase text-muted-foreground">Primary Language</label>
-                <select disabled className="flex h-10 w-full items-center rounded-md border border-border/70 bg-background/70 px-3 text-sm text-foreground opacity-70">
-                  <option>English</option>
-                  <option>Arabic</option>
-                  <option>French</option>
+                <select name="primaryLanguage" defaultValue={settings.primaryLanguage} className="flex h-10 w-full items-center rounded-md border border-border/70 bg-background/70 px-3 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-primary">
+                  <option value="en">English</option>
+                  <option value="ar">Arabic</option>
+                  <option value="fr">French</option>
                 </select>
               </div>
               <div className="space-y-1.5">
                 <label className="font-display text-[10px] font-semibold uppercase text-muted-foreground">Store Currency</label>
-                <select disabled className="flex h-10 w-full items-center rounded-md border border-border/70 bg-background/70 px-3 text-sm text-foreground opacity-70">
-                  <option>USD ($)</option>
-                  <option>EUR (€)</option>
-                  <option>GBP (£)</option>
+                <select name="storeCurrency" defaultValue={settings.storeCurrency} className="flex h-10 w-full items-center rounded-md border border-border/70 bg-background/70 px-3 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-primary">
+                  <option value="USD">USD ($)</option>
+                  <option value="EUR">EUR (€)</option>
+                  <option value="GBP">GBP (£)</option>
                 </select>
               </div>
             </div>
@@ -93,15 +135,13 @@ export default function AdminSettingsPage() {
 
           <div className="pt-4 flex justify-end border-t border-border/60">
             <button 
-              type="button" 
-              disabled
-              className="inline-flex h-10 items-center justify-center gap-2 rounded-full bg-primary px-6 font-display text-sm font-bold text-primary-foreground opacity-50 cursor-not-allowed"
+              type="submit" 
+              className="inline-flex h-10 items-center justify-center gap-2 rounded-full bg-primary px-6 font-display text-sm font-bold text-primary-foreground hover:bg-primary/90 transition"
             >
               <Save className="size-4" />
               Save Settings
             </button>
           </div>
-          <p className="text-right text-xs text-muted-foreground">Saving requires API database integration.</p>
         </form>
       </div>
     </AdminDashboardLayout>

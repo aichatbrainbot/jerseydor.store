@@ -5,7 +5,6 @@ import { CurrencySelector } from '@/components/CurrencySelector';
 export function Footer() {
   const collectionLinks = [
     { href: '/collections/football-shirts', label: 'Football Shirts' },
-    { href: '/collections/retro-archive', label: 'Retro Jerseys' },
     { href: '/collections/player-version', label: 'Player Version' },
     { href: '/collections/womens-shirts', label: 'Women Shirts' },
     { href: '/collections/kids-kits', label: 'Kids Kits' },
@@ -51,7 +50,6 @@ export function Footer() {
           <ul className="space-y-2 text-sm text-muted-foreground">
             <li><Link href="/products" className="hover:text-primary transition-colors">All Products</Link></li>
             <li><Link href="/collections/football-shirts" className="hover:text-primary transition-colors">Football Shirts</Link></li>
-            <li><Link href="/collections/retro-archive" className="hover:text-primary transition-colors">Retro Jerseys</Link></li>
             <li><Link href="/collections/player-version" className="hover:text-primary transition-colors">Customizable Pieces</Link></li>
           </ul>
         </div>

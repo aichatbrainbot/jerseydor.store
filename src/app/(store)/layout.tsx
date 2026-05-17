@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     default: "JerseyDor | Premium Football Jerseys",
     template: "%s | JerseyDor",
   },
-  description: "Premium football jerseys, retro shirts, player version kits, and streetwear-ready football pieces with real product imagery.",
+  description: "Premium football jerseys, retro shirts, player version kits, and streetwear-ready football pieces with clear product photography.",
   keywords: [
     "lamine yamal 7 year old jersey",
     "socceroos jersey",
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: "JerseyDor | Premium Football Jerseys",
-    description: "Premium football jerseys, retro shirts, player version kits, and streetwear-ready football pieces with real product imagery.",
+    description: "Premium football jerseys, retro shirts, player version kits, and streetwear-ready football pieces with clear product photography.",
     type: "website",
     locale: "en_US",
     url: SITE_URL,
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "JerseyDor | Premium Football Jerseys",
-    description: "Premium football jerseys, retro shirts, player version kits, and streetwear-ready football pieces with real product imagery.",
+    description: "Premium football jerseys, retro shirts, player version kits, and streetwear-ready football pieces with clear product photography.",
     images: ["https://jerseydor.store/og-image.png"],
   },
 };

@@ -11,7 +11,6 @@ import { getCartItemCount, readStoredCartItems, subscribeToCart } from '@/lib/ca
 const categoryLinks = [
   { href: '/products', label: 'All Products' },
   { href: '/collections/football-shirts', label: 'Football Shirts' },
-  { href: '/collections/retro-archive', label: 'Retro Jerseys' },
   { href: '/collections/player-version', label: 'Player Version' },
   { href: '/collections/womens-shirts', label: 'Women Shirts' },
   { href: '/collections/kids-kits', label: 'Kids Kits' },
@@ -130,8 +129,8 @@ export function MobileDock() {
             {[
               { label: 'arsenal jersey', href: '/collections/football-shirts' },
               { label: 'chelsea shirts', href: '/collections/football-shirts' },
-              { label: 'retro jerseys', href: '/collections/retro-archive' },
               { label: 'kids kits', href: '/collections/kids-kits' },
+              { label: 'player version', href: '/collections/player-version' },
             ].map((item) => (
               <Link
                 key={item.label}

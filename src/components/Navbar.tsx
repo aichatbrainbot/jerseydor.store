@@ -11,7 +11,6 @@ import { getCartItemCount, readStoredCartItems, subscribeToCart } from '@/lib/ca
 const categoryLinks = [
   { href: '/products', label: 'All Products', description: 'Full catalog' },
   { href: '/collections/football-shirts', label: 'Football Shirts', description: 'Home, away, third' },
-  { href: '/collections/retro-archive', label: 'Retro Jerseys', description: 'Classic and reissue shirts' },
   { href: '/collections/player-version', label: 'Player Version', description: 'Authentic fit' },
   { href: '/collections/womens-shirts', label: 'Women Shirts', description: 'Women-fit products' },
   { href: '/collections/kids-kits', label: 'Kids Kits', description: 'Youth and kids sets' },
@@ -88,9 +87,6 @@ export function Navbar() {
             </div>
             <Link href="/collections/football-shirts" className="font-display text-sm font-medium text-muted-foreground transition-colors hover:text-primary">
               Shirts
-            </Link>
-            <Link href="/collections/retro-archive" className="font-display text-sm font-medium text-muted-foreground transition-colors hover:text-primary">
-              Retro Jerseys
             </Link>
             <Link href="/blog" className="font-display text-sm font-medium text-muted-foreground transition-colors hover:text-primary">
               Journal
@@ -186,9 +182,6 @@ export function Navbar() {
             </div>
             <Link href="/collections/football-shirts" className="block font-display text-sm font-medium text-foreground hover:text-primary" onClick={() => setIsOpen(false)}>
               Shirts
-            </Link>
-            <Link href="/collections/retro-archive" className="block font-display text-sm font-medium text-foreground hover:text-primary" onClick={() => setIsOpen(false)}>
-              Retro Jerseys
             </Link>
             <Link href="/blog" className="block font-display text-sm font-medium text-foreground hover:text-primary" onClick={() => setIsOpen(false)}>
               Journal

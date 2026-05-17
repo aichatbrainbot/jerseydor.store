@@ -10,6 +10,8 @@ import type { Product } from '@/data/products';
 import { getPublishedProducts } from '@/lib/catalog';
 import { cn } from '@/lib/utils';
 
+const MIN_INDEXABLE_COLLECTION_PRODUCTS = 4;
+
 function uniqueProducts(items: Product[]) {
   const seen = new Set<string>();
   return items.filter((item) => {
@@ -35,14 +37,13 @@ function byCollection(products: Product[], collectionSlug: string, limit: number
 
 const keywordLinks = [
   { label: 'club football shirts', href: '/collections/football-shirts' },
-  { label: 'retro jerseys', href: '/collections/retro-archive' },
   { label: 'player version shirts', href: '/collections/player-version' },
   { label: 'kids football kits', href: '/collections/kids-kits' },
   { label: 'training apparel', href: '/collections/training-and-apparel' },
 ];
 
 const trustItems = [
-  { icon: Truck, title: 'Fast dispatch', copy: 'Catalog-ready products with clear pricing and real images.' },
+  { icon: Truck, title: 'Fast dispatch', copy: 'Clear pricing, product imagery, and a focused path from browsing to bag.' },
   { icon: Shirt, title: 'Name & number', copy: 'Customizable shirt options stay visible on product pages.' },
   { icon: RotateCcw, title: 'Easy browsing', copy: 'Collections, search links, and pagination make a large catalog usable.' },
 ];
@@ -54,6 +55,10 @@ export default function Home() {
   const topSellingProducts = byQuery(products, ['lamine', 'arsenal', 'barcelona', 'portugal', 'napoli', 'france', 'chelsea', 'bayern'], 4);
   const newAdditions = products.filter((product) => /shirt|jersey|kit/i.test(product.title)).slice(0, 4);
   const retroProducts = byCollection(products, 'retro-archive', 4);
+  const canPromoteRetro = retroProducts.length >= MIN_INDEXABLE_COLLECTION_PRODUCTS;
+  const promotedCollections = collections.filter(
+    (collection) => products.filter((product) => product.collectionSlug === collection.slug).length >= MIN_INDEXABLE_COLLECTION_PRODUCTS
+  );
   const trainingProducts = byCollection(products, 'training-and-apparel', 4);
   const playerVersionProducts = byCollection(products, 'player-version', 4);
   const featuredHero = heroProducts[0] ?? products[0];
@@ -76,7 +81,7 @@ export default function Home() {
             The store for football shirts that look good off pitch.
           </h1>
           <p className="mt-6 max-w-xl text-base leading-7 text-muted-foreground">
-            JerseyDor is the store for football shirts built for off-pitch style, with real product images across
+            JerseyDor is the store for football shirts built for off-pitch style, with clear product photography across
             World Cup 26 shirts, club jerseys, retro jerseys, kids kits, women shirts, and player version products.
           </p>
           <div className="mt-6 grid grid-cols-3 gap-2 md:hidden">
@@ -173,7 +178,7 @@ export default function Home() {
           </Link>
         </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {collections.map((collection) => (
+          {promotedCollections.map((collection) => (
             <Link key={collection.slug} href={`/collections/${collection.slug}`} className="group relative min-h-[280px] overflow-hidden rounded-lg border border-border/60 bg-muted">
               <Image
                 src={collection.image}
@@ -195,42 +200,44 @@ export default function Home() {
 
       <ProductSection
         eyebrow="New additions"
-        title="Fresh catalog products with real product imagery."
+        title="Fresh football pieces with clear product imagery."
         href="/products"
         products={newAdditions}
       />
 
-      <section className="brand-container py-16 md:py-24">
-        <div className="relative min-h-[460px] overflow-hidden rounded-lg border border-border/60 bg-muted">
-          {retroProducts[0] && (
-            <Image
-              src={retroProducts[0].image}
-              alt={retroProducts[0].title}
-              fill
-              className="object-cover opacity-70"
-              sizes="100vw"
-            />
-          )}
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(5,7,12,0.94),rgba(5,7,12,0.34))]" />
-          <div className="absolute bottom-0 left-0 max-w-2xl p-6 md:p-10">
-            <p className="brand-eyebrow mb-4">Retro jerseys</p>
-            <h2 className="font-heading text-4xl font-black leading-tight md:text-6xl">Archive shirts for people who care about the details.</h2>
-            <p className="mt-5 text-base leading-7 text-muted-foreground">
-              Give search engines and buyers a clear retro destination: older seasons, reissues, anniversary pieces, and nostalgic shirt designs.
-            </p>
-            <Link href="/collections/retro-archive" className={cn(buttonVariants({ size: 'lg' }), 'mt-8')}>
-              Shop Retro Jerseys
-            </Link>
-          </div>
-        </div>
-      </section>
+      {canPromoteRetro && (
+        <>
+          <section className="brand-container py-16 md:py-24">
+            <div className="relative min-h-[460px] overflow-hidden rounded-lg border border-border/60 bg-muted">
+              <Image
+                src={retroProducts[0].image}
+                alt={retroProducts[0].title}
+                fill
+                className="object-cover opacity-70"
+                sizes="100vw"
+              />
+              <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(5,7,12,0.94),rgba(5,7,12,0.34))]" />
+              <div className="absolute bottom-0 left-0 max-w-2xl p-6 md:p-10">
+                <p className="brand-eyebrow mb-4">Retro jerseys</p>
+                <h2 className="font-heading text-4xl font-black leading-tight md:text-6xl">Archive shirts for people who care about the details.</h2>
+                <p className="mt-5 text-base leading-7 text-muted-foreground">
+                  Older seasons, reissues, anniversary pieces, and nostalgic shirt designs in one browsable collection.
+                </p>
+                <Link href="/collections/retro-archive" className={cn(buttonVariants({ size: 'lg' }), 'mt-8')}>
+                  Shop Retro Jerseys
+                </Link>
+              </div>
+            </div>
+          </section>
 
-      <ProductSection
-        eyebrow="Retro products"
-        title="Archive pieces from the catalog."
-        href="/collections/retro-archive"
-        products={retroProducts}
-      />
+          <ProductSection
+            eyebrow="Retro products"
+            title="Archive pieces from the catalog."
+            href="/collections/retro-archive"
+            products={retroProducts}
+          />
+        </>
+      )}
 
       <section className="border-y border-border/60 bg-card/25 py-16 md:py-24">
         <div className="brand-container grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">

@@ -100,6 +100,7 @@ export default async function CollectionPage({ params, searchParams }: Props) {
   const page = Math.min(currentPage, totalPages);
   const start = (page - 1) * PAGE_SIZE;
   const visibleProducts = products.slice(start, start + PAGE_SIZE);
+  const relatedCollections = collections.filter((item) => item.slug !== collection.slug && !isThinCollection(item.slug));
   const breadcrumbJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -245,7 +246,7 @@ export default async function CollectionPage({ params, searchParams }: Props) {
         </section>
       )}
 
-      {collections.filter(c => c.slug !== collection.slug).length > 0 && (
+      {relatedCollections.length > 0 && (
         <section className="border-t border-border/60 bg-card/25 py-16 md:py-24">
           <div className="brand-container">
             <div className="mb-10">
@@ -253,8 +254,7 @@ export default async function CollectionPage({ params, searchParams }: Props) {
               <h2 className="font-heading text-3xl font-black md:text-5xl">Explore other collections</h2>
             </div>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {collections
-                .filter(c => c.slug !== collection.slug)
+              {relatedCollections
                 .slice(0, 3)
                 .map((c) => (
                 <Link key={c.slug} href={`/collections/${c.slug}`} className="group relative min-h-[280px] overflow-hidden rounded-lg border border-border/60 bg-muted">

@@ -16,7 +16,7 @@ export const collections: Collection[] = [
     title: 'Football Shirts',
     description: 'Main catalog of home, away, third, and special edition shirts.',
     image: 'https://cdn.shopify.com/s/files/1/0684/9783/4240/files/51100_6BackgroundRemoved.png',
-    seoDescription: 'Browse the full football shirts catalog with real product images, prices, size variants, and customizable shirt options.',
+    seoDescription: 'Browse football shirts with clear product photography, prices, size variants, and customizable shirt options.',
     content: 'Our main catalog features official home, away, third, and special edition football shirts from clubs and national teams worldwide. We focus on curating high-quality kits that blend pitch-ready performance with off-pitch streetwear aesthetics.',
     faqs: [
       {
@@ -71,9 +71,9 @@ export const collections: Collection[] = [
     id: '4',
     slug: 'womens-shirts',
     title: 'Women Shirts',
-    description: 'Women-fit shirts and kits from the imported catalog.',
+    description: 'Women-fit shirts and kits selected for clear browsing.',
     image: 'https://cdn.shopify.com/s/files/1/0684/9783/4240/files/51100_6BackgroundRemoved.png',
-    seoDescription: 'Browse women football shirts and women-fit kits with real product images from the imported catalog.',
+    seoDescription: 'Browse women football shirts and women-fit kits with clear product images, sizing context, and easy category navigation.',
     content: 'Football shirts and kits tailored specifically for a women\'s fit. This collection includes national team edits, club releases, and lifestyle pieces designed for comfortable everyday wear and matchday support.',
     faqs: [
       {

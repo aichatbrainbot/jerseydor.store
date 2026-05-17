@@ -6,8 +6,8 @@ import { ProductGallery } from '@/components/ProductGallery';
 import { Price } from '@/components/Price';
 import type { Product } from '@/data/products';
 import type { Metadata } from 'next';
-import ReactMarkdown from 'react-markdown';
 import { getPublishedProductBySlug, getPublishedProducts } from '@/lib/catalog';
+import { getProductContent } from '@/lib/product-content';
 
 const SITE_URL = 'https://jerseydor.store';
 
@@ -37,24 +37,30 @@ export async function generateMetadata(
     };
   }
 
-  const description = product.description.slice(0, 160).replace(/#/g, '').trim();
+  const content = getProductContent(product);
 
   return {
     title: product.title,
-    description,
+    description: content.seoDescription,
     alternates: {
       canonical: `/products/${product.slug}`,
     },
+    robots: product.indexable === false
+      ? {
+          index: false,
+          follow: true,
+        }
+      : undefined,
     openGraph: {
       title: product.title,
-      description,
+      description: content.seoDescription,
       images: [product.image || 'https://jerseydor.store/og-image.png'],
       url: `/products/${product.slug}`,
     },
     twitter: {
       card: 'summary_large_image',
       title: product.title,
-      description,
+      description: content.seoDescription,
       images: [product.image || 'https://jerseydor.store/og-image.png'],
     },
   };
@@ -80,12 +86,13 @@ export default async function ProductPage({ params }: Props) {
     relatedProducts = [...relatedProducts, ...fallbackProducts];
   }
 
+  const content = getProductContent(product);
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: product.title,
     image: [product.image, ...product.gallery],
-    description: product.description.slice(0, 160).replace(/#/g, '').trim(),
+    description: content.seoDescription,
     brand: product.brand
       ? {
           '@type': 'Brand',
@@ -158,7 +165,7 @@ export default async function ProductPage({ params }: Props) {
           <h1 className="font-heading text-3xl font-black leading-tight md:text-6xl">{product.title}</h1>
           <Price amount={product.price} className="mt-5 block font-display text-2xl font-semibold text-primary" />
           <p className="mt-5 text-sm leading-6 text-muted-foreground">
-            Real catalog photography, selectable sizing, and optional name and number details where available.
+            Product imagery, selectable sizing, and supported name and number details stay close to the buying options.
           </p>
 
           <AddToBagForm
@@ -186,7 +193,7 @@ export default async function ProductPage({ params }: Props) {
             </div>
             <div className="flex items-center gap-3 rounded-sm border border-border/60 bg-background/40 p-3">
               <ShieldCheck className="size-4 text-primary" />
-              <span>Real product imagery</span>
+              <span>Clear product imagery</span>
             </div>
           </div>
         </aside>
@@ -194,11 +201,7 @@ export default async function ProductPage({ params }: Props) {
 
       <section className="brand-container border-y border-border/60 py-10">
         <div className="grid gap-4 md:grid-cols-3">
-          {[
-            { title: 'Fit note', copy: 'Choose your usual streetwear size for a relaxed look, or size down for a closer matchday fit.' },
-            { title: 'Customization', copy: product.isCustomizable ? 'Name and number are saved with your bag item before checkout.' : 'This item is sold without name and number customization.' },
-            { title: 'Delivery', copy: 'Shipping is calculated at checkout, with free shipping shown for larger orders.' },
-          ].map((item) => (
+          {content.sections.slice(0, 3).map((item) => (
             <div key={item.title} className="brand-card p-5">
               <p className="font-display text-xs font-semibold uppercase text-primary">{item.title}</p>
               <p className="mt-3 text-sm leading-6 text-muted-foreground">{item.copy}</p>
@@ -212,20 +215,37 @@ export default async function ProductPage({ params }: Props) {
           <p className="brand-eyebrow mb-4">Product story</p>
           <h2 className="font-heading text-3xl font-black md:text-5xl">Designed like a garment, not a souvenir.</h2>
         </div>
-        <div className="prose prose-invert max-w-none prose-headings:font-heading prose-headings:text-foreground prose-p:text-muted-foreground prose-li:text-muted-foreground prose-strong:text-foreground">
-          <ReactMarkdown>{product.description}</ReactMarkdown>
+        <div className="space-y-5 text-base leading-8 text-muted-foreground">
+          {content.story.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
         </div>
       </section>
 
       <section className="brand-container py-14 md:py-20">
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {product.features.map((feature) => (
-            <div key={feature} className="brand-card flex items-center gap-3 p-4">
-              <Check className="size-4 text-primary" />
-              <span className="text-sm text-muted-foreground">{feature}</span>
+        <div className="mb-10">
+          <p className="brand-eyebrow mb-4">Details</p>
+          <h2 className="font-heading text-3xl font-black md:text-5xl">Built for a clear buying decision.</h2>
+        </div>
+        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+          {content.sections.slice(3).map((section) => (
+            <div key={section.title} className="brand-card p-5">
+              <div className="flex items-center gap-3">
+                <Check className="size-4 text-primary" />
+                <h3 className="font-display text-xs font-semibold uppercase text-primary">{section.title}</h3>
+              </div>
+              <p className="mt-3 text-sm leading-6 text-muted-foreground">{section.copy}</p>
             </div>
           ))}
         </div>
+        <dl className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {content.details.map((item) => (
+            <div key={`${item.label}-${item.value}`} className="rounded-sm border border-border/60 bg-background/40 p-4">
+              <dt className="font-display text-xs font-semibold uppercase text-muted-foreground">{item.label}</dt>
+              <dd className="mt-2 text-sm text-foreground">{item.value}</dd>
+            </div>
+          ))}
+        </dl>
       </section>
 
       {relatedProducts.length > 0 && (

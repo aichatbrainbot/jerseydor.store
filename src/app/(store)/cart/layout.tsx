@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  title: {
+    absolute: 'Cart | JerseyDor',
+  },
   robots: {
     index: false,
     follow: false,

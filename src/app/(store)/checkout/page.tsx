@@ -5,6 +5,9 @@ import { cn } from '@/lib/utils';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  title: {
+    absolute: 'Checkout | JerseyDor',
+  },
   robots: {
     index: false,
     follow: false,

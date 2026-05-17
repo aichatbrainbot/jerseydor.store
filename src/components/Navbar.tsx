@@ -11,7 +11,7 @@ import { getCartItemCount, readStoredCartItems, subscribeToCart } from '@/lib/ca
 const categoryLinks = [
   { href: '/products', label: 'All Products', description: 'Full catalog' },
   { href: '/collections/football-shirts', label: 'Football Shirts', description: 'Home, away, third' },
-  { href: '/collections/player-version', label: 'Player Version', description: 'Authentic fit' },
+  { href: '/collections/player-version', label: 'Player Version', description: 'Athletic fit' },
   { href: '/collections/womens-shirts', label: 'Women Shirts', description: 'Women-fit products' },
   { href: '/collections/kids-kits', label: 'Kids Kits', description: 'Youth and kids sets' },
   { href: '/collections/training-and-apparel', label: 'Training & Apparel', description: 'Pants, jackets, caps' },

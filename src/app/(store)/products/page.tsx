@@ -7,15 +7,10 @@ import { buttonVariants } from '@/components/ui/button';
 import { getPublishedProducts } from '@/lib/catalog';
 
 const productsMetadata = {
-  title: 'All Products',
-  description: 'Explore football shirts and kits including lamine yamal 7 year old jersey, socceroos jersey, chelsea shirts for sale, arsenal jersey, and crystal palace kit searches.',
-  keywords: [
-    'lamine yamal 7 year old jersey',
-    'socceroos jersey',
-    'chelsea shirts for sale',
-    'arsenal jersey',
-    'crystal palace kit',
-  ],
+  title: {
+    absolute: 'Football Jerseys & Soccer Shirts | JerseyDor',
+  },
+  description: "Browse football jerseys, soccer shirts, player version kits, kids kits, women's shirts, and training apparel with clear product photos, prices, sizing notes, and customization options.",
 } satisfies Metadata;
 
 type ProductSearchParams = {
@@ -54,14 +49,14 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
       canonical: '/products',
     },
     openGraph: {
-      title: productsMetadata.title,
+      title: 'Football Jerseys & Soccer Shirts | JerseyDor',
       description: productsMetadata.description,
       url: '/products',
       images: ['https://jerseydor.store/og-image.png'],
     },
     twitter: {
       card: 'summary_large_image',
-      title: productsMetadata.title,
+      title: 'Football Jerseys & Soccer Shirts | JerseyDor',
       description: productsMetadata.description,
       images: ['https://jerseydor.store/og-image.png'],
     },
@@ -205,7 +200,7 @@ export default async function ProductsPage({ searchParams }: Props) {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
-    name: productsMetadata.title,
+    name: 'Football Jerseys & Soccer Shirts',
     description: productsMetadata.description,
     url: 'https://jerseydor.store/products',
     mainEntity: {
@@ -234,7 +229,7 @@ export default async function ProductsPage({ searchParams }: Props) {
           <h1 className="brand-title">All products</h1>
         </div>
         <p className="brand-subtitle">
-          Browse {filteredProducts.length.toLocaleString('en-US')} catalog products{query ? ` for "${query}"` : ''}. Use category, price, and sort filters to find the right shirt faster.
+          Browse {filteredProducts.length.toLocaleString('en-US')} football products{query ? ` for "${query}"` : ''}. Use category, price, and sort filters to find the right shirt faster.
         </p>
       </header>
 
@@ -271,18 +266,18 @@ export default async function ProductsPage({ searchParams }: Props) {
           </p>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
             {[
-              'lamine yamal 7 year old jersey',
-              'socceroos jersey',
-              'chelsea shirts for sale',
-              'arsenal jersey',
-              'crystal palace kit',
-            ].map((keyword) => (
+              { label: 'Football shirts', href: '/collections/football-shirts' },
+              { label: 'Player version', href: '/collections/player-version' },
+              { label: "Women's shirts", href: '/collections/womens-shirts' },
+              { label: 'Kids kits', href: '/collections/kids-kits' },
+              { label: 'Training apparel', href: '/collections/training-and-apparel' },
+            ].map((item) => (
               <Link
-                key={keyword}
-                href={`/products?query=${keyword.replaceAll(' ', '-')}`}
+                key={item.href}
+                href={item.href}
                 className="rounded-full border border-border/70 px-3 py-2 text-center font-display text-xs font-semibold text-muted-foreground transition hover:border-primary/50 hover:text-primary"
               >
-                {keyword}
+                {item.label}
               </Link>
             ))}
           </div>

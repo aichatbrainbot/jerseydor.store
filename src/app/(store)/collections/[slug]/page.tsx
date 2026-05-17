@@ -11,6 +11,28 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 
 const SITE_URL = 'https://jerseydor.store';
 const MIN_INDEXABLE_COLLECTION_PRODUCTS = 4;
+const COLLECTION_METADATA: Record<string, { title: string; description: string }> = {
+  'football-shirts': {
+    title: 'Football Shirts & Soccer Jerseys | JerseyDor',
+    description: 'Browse football shirts and soccer jerseys by club, country, season, fit, and customization options. Clear photos, pricing, and sizing notes.',
+  },
+  'player-version': {
+    title: 'Player Version Football Jerseys | JerseyDor',
+    description: 'Shop player version football jerseys with closer athletic fits, product photos, sizing guidance, and customization options where available.',
+  },
+  'kids-kits': {
+    title: 'Kids Football Kits & Youth Jerseys | JerseyDor',
+    description: 'Browse kids football kits and youth jerseys with sizing guidance, product photos, prices, and checkout details.',
+  },
+  'womens-shirts': {
+    title: "Women's Football Shirts & Soccer Jerseys | JerseyDor",
+    description: "Shop women's football shirts and soccer jerseys with women's fit context, product photos, and clear buying details.",
+  },
+  'training-and-apparel': {
+    title: 'Football Training Apparel & Gear | JerseyDor',
+    description: 'Browse football training apparel, pants, jackets, caps, shorts, and off-pitch pieces with photos, prices, and sizing notes.',
+  },
+};
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -51,10 +73,16 @@ export async function generateMetadata(
       title: 'Collection Not Found',
     };
   }
-
-  return {
+  const metadata = COLLECTION_METADATA[collection.slug] ?? {
     title: collection.title,
     description: collection.seoDescription,
+  };
+
+  return {
+    title: {
+      absolute: metadata.title,
+    },
+    description: metadata.description,
     alternates: {
       canonical: `/collections/${collection.slug}`,
     },
@@ -65,15 +93,15 @@ export async function generateMetadata(
         }
       : undefined,
     openGraph: {
-      title: collection.title,
-      description: collection.seoDescription,
+      title: metadata.title,
+      description: metadata.description,
       images: [collection.image || 'https://jerseydor.store/og-image.png'],
       url: `/collections/${collection.slug}`,
     },
     twitter: {
       card: 'summary_large_image',
-      title: collection.title,
-      description: collection.seoDescription,
+      title: metadata.title,
+      description: metadata.description,
       images: [collection.image || 'https://jerseydor.store/og-image.png'],
     },
   };

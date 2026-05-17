@@ -90,6 +90,16 @@ function compact(value: string) {
   return value.replace(/\s+/g, ' ').trim();
 }
 
+function truncateAtWord(value: string, maxLength = 160) {
+  const text = compact(value);
+  if (text.length <= maxLength) return text;
+
+  const truncated = text.slice(0, maxLength - 1);
+  const lastSpace = truncated.lastIndexOf(' ');
+
+  return `${truncated.slice(0, lastSpace > 80 ? lastSpace : maxLength - 1).trim()}.`;
+}
+
 function getSeason(title: string) {
   return title.match(/\b(?:19|20)\d{2}(?:[-/]\d{2,4})?\b/)?.[0]?.replace('-', '/') ?? '';
 }
@@ -217,7 +227,7 @@ function comparisonCopy(subject: string, productType: string, category: string, 
 
 function decisionCopy(product: Product, productType: string, version: string) {
   if (version === 'player version') {
-    return `For ${product.title}, the key checks are the closer fit, size choice, product photos, and any supported print fields. That keeps the page useful without claiming official licensing or details not present in the product data.`;
+    return `For ${product.title}, the key checks are the closer fit, size choice, product photos, and any supported print fields. That keeps the page useful without claiming licensing details not present in the product data.`;
   }
 
   if (productType.includes('cap') || productType.includes('backpack')) {
@@ -269,8 +279,22 @@ function makeStory(product: Product) {
   return [first, second, third, fourth];
 }
 
-function makeSeoDescription(product: Product, story: string[]) {
-  return compact(story.join(' ')).slice(0, 158);
+function makeSeoDescription(product: Product) {
+  const version = getVersion(product);
+  const audience = getAudience(product);
+  const productType = getProductType(product.title);
+  const modifiers = [
+    version === 'player version' ? 'closer player-version fit' : '',
+    audience === 'kids' ? 'kids sizing notes' : '',
+    audience === 'women' ? "women's fit context" : '',
+    product.collectionSlug === 'training-and-apparel' ? 'training and everyday wear details' : '',
+  ].filter(Boolean);
+  const modifierText = modifiers.length > 0 ? ` Includes ${joinNatural(modifiers)}.` : '';
+
+  return truncateAtWord(
+    `Shop ${product.title} at JerseyDor. See photos, sizing notes, customization options, price, availability, and delivery details before checkout.${modifierText}`,
+    productType.includes('player') || modifiers.length > 0 ? 175 : 165
+  );
 }
 
 function makeDetails(product: Product): ProductDetail[] {
@@ -304,7 +328,7 @@ export function getProductContent(product: Product): ProductContent {
   const story = makeStory(product);
 
   return {
-    seoDescription: makeSeoDescription(product, story),
+    seoDescription: makeSeoDescription(product),
     story,
     sections: [
       { title: 'Fit & sizing', copy: sizeCopy(productType, version, audience) },

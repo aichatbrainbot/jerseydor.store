@@ -26,12 +26,11 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "JerseyDor — Premium Football Streetwear",
+    default: "JerseyDor - Premium Football Streetwear",
     template: "%s | JerseyDor",
   },
   description:
-    "Shop premium football jerseys styled for the streets. Retro kits, oversized silhouettes, and editorial drops — only at JerseyDor.",
-  keywords: ["football jerseys", "retro kits", "streetwear", "soccer shirts", "JerseyDor"],
+    "Shop premium football jerseys styled for the streets. Retro kits, oversized silhouettes, and editorial drops at JerseyDor.",
   authors: [{ name: "JerseyDor", url: SITE_URL }],
   creator: "JerseyDor",
   openGraph: {
@@ -39,7 +38,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: SITE_URL,
     siteName: "JerseyDor",
-    title: "JerseyDor — Premium Football Streetwear",
+    title: "JerseyDor - Premium Football Streetwear",
     description:
       "Shop premium football jerseys styled for the streets. Retro kits, oversized silhouettes, and editorial drops.",
     images: [
@@ -47,13 +46,13 @@ export const metadata: Metadata = {
         url: "https://jerseydor.store/og-image.png",
         width: 1200,
         height: 630,
-        alt: "JerseyDor — Premium Football Streetwear",
+        alt: "JerseyDor - Premium Football Streetwear",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "JerseyDor — Premium Football Streetwear",
+    title: "JerseyDor - Premium Football Streetwear",
     description:
       "Shop premium football jerseys styled for the streets. Retro kits, oversized silhouettes, and editorial drops.",
     images: ["https://jerseydor.store/og-image.png"],

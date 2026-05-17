@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, CheckCircle2, RotateCcw, Shirt, Star, Truck } from 'lucide-react';
+import { ArrowRight, CheckCircle2, HelpCircle, Mail, RotateCcw, Shirt, Truck } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { buttonVariants } from '@/components/ui/button';
 import { ProductCard } from '@/components/ProductCard';
@@ -9,8 +9,30 @@ import { collections } from '@/data/collections';
 import type { Product } from '@/data/products';
 import { getPublishedProducts } from '@/lib/catalog';
 import { cn } from '@/lib/utils';
+import type { Metadata } from 'next';
 
 const MIN_INDEXABLE_COLLECTION_PRODUCTS = 4;
+const homepageTitle = 'JerseyDor | Retro Football Jerseys & Soccer Shirts';
+const homepageDescription = 'Shop football jerseys, retro-inspired shirts, player version kits, kids kits, and training apparel at JerseyDor. Browse clear product photos, sizing notes, and customization options.';
+
+export const metadata: Metadata = {
+  title: {
+    absolute: homepageTitle,
+  },
+  description: homepageDescription,
+  openGraph: {
+    title: homepageTitle,
+    description: homepageDescription,
+    url: '/',
+    images: ['https://jerseydor.store/og-image.png'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: homepageTitle,
+    description: homepageDescription,
+    images: ['https://jerseydor.store/og-image.png'],
+  },
+};
 
 function uniqueProducts(items: Product[]) {
   const seen = new Set<string>();
@@ -69,14 +91,14 @@ export default function Home() {
         <div className="brand-container flex min-h-10 flex-wrap items-center justify-center gap-x-8 gap-y-2 py-2 font-display text-xs font-bold uppercase">
           <span>Buy 2 get 1 free</span>
           <span>Custom name & number</span>
-          <span>Real catalog images</span>
+          <span>Clear product photos</span>
           <span>{products.length.toLocaleString('en-US')} products</span>
         </div>
       </section>
 
       <section className="brand-container grid gap-4 py-4 md:gap-6 md:py-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-stretch">
         <div className="brand-panel order-2 flex min-h-[420px] flex-col justify-end overflow-hidden p-5 md:min-h-[480px] md:p-10 lg:order-1">
-          <p className="brand-eyebrow mb-5">Football shirts / full catalog / 2026 edits</p>
+          <p className="brand-eyebrow mb-5">Football shirts / soccer jerseys / 2026 edits</p>
           <h1 className="font-heading text-4xl font-black leading-[0.92] md:text-7xl">
             The store for football shirts that look good off pitch.
           </h1>
@@ -309,19 +331,21 @@ export default function Home() {
       <section className="border-y border-border/60 bg-card/25 py-16 md:py-24">
         <div className="brand-container grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
-            <p className="brand-eyebrow mb-4">Reviews</p>
-            <h2 className="font-heading text-3xl font-black md:text-5xl">Add social proof before the footer.</h2>
+            <p className="brand-eyebrow mb-4">Shopping confidence</p>
+            <h2 className="font-heading text-3xl font-black md:text-5xl">Clear details before checkout.</h2>
           </div>
           <div className="grid gap-4 sm:grid-cols-3">
-            {['Clean product images and easy browsing.', 'Found the shirt by team search fast.', 'The category pages make the catalog feel organized.'].map((copy, index) => (
-              <div key={copy} className="brand-card p-5">
-                <div className="mb-4 flex gap-1 text-primary">
-                  {Array.from({ length: 5 }).map((_, starIndex) => (
-                    <Star key={starIndex} className="size-4 fill-current" />
-                  ))}
+            {[
+              { icon: Shirt, title: 'Product clarity', copy: 'Product pages focus on photos, price, sizing notes, and available options so you can review the item before checkout.' },
+              { icon: Mail, title: 'Support path', copy: 'Use the contact page for order questions, sizing help, product requests, or checkout support.' },
+              { icon: HelpCircle, title: 'No unsupported claims', copy: 'Version and fit notes are based on the product information shown, without claiming licensing details that are not verified.' },
+            ].map((item) => (
+              <div key={item.title} className="brand-card p-5">
+                <div className="mb-4 grid size-10 place-items-center rounded-full border border-primary/25 bg-primary/10 text-primary">
+                  <item.icon className="size-5" />
                 </div>
-                <p className="text-sm leading-6 text-muted-foreground">{copy}</p>
-                <p className="mt-5 font-display text-xs uppercase text-foreground">Customer {index + 1}</p>
+                <h3 className="font-heading text-xl font-black">{item.title}</h3>
+                <p className="mt-3 text-sm leading-6 text-muted-foreground">{item.copy}</p>
               </div>
             ))}
           </div>
@@ -336,21 +360,33 @@ export default function Home() {
           </div>
           <Accordion className="space-y-3">
             <AccordionItem value="item-1" className="rounded-lg border border-border/70 bg-background/50 px-5">
-              <AccordionTrigger className="py-5 text-left font-heading text-lg font-bold hover:no-underline">Can I add a custom name and number?</AccordionTrigger>
+              <AccordionTrigger className="py-5 text-left font-heading text-lg font-bold hover:no-underline">What is JerseyDor?</AccordionTrigger>
               <AccordionContent className="pb-5 text-muted-foreground">
-                Yes. Products marked as customizable include name and number fields on the product page.
+                JerseyDor is an online football shirt store focused on football jerseys, soccer shirts, player version products, kids kits, women-fit shirts, and training apparel with clear product pages.
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2" className="rounded-lg border border-border/70 bg-background/50 px-5">
-              <AccordionTrigger className="py-5 text-left font-heading text-lg font-bold hover:no-underline">How is the catalog organized?</AccordionTrigger>
+              <AccordionTrigger className="py-5 text-left font-heading text-lg font-bold hover:no-underline">How do I contact support?</AccordionTrigger>
               <AccordionContent className="pb-5 text-muted-foreground">
-                Products are grouped into football shirts, retro jerseys, player version, women shirts, kids kits, and training apparel.
+                Use the contact page for order questions, sizing help, checkout support, or product requests. Include your order number if you already placed an order.
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-3" className="rounded-lg border border-border/70 bg-background/50 px-5">
-              <AccordionTrigger className="py-5 text-left font-heading text-lg font-bold hover:no-underline">Why so many product pages?</AccordionTrigger>
+              <AccordionTrigger className="py-5 text-left font-heading text-lg font-bold hover:no-underline">Are products customizable?</AccordionTrigger>
               <AccordionContent className="pb-5 text-muted-foreground">
-                Large catalogs need clear collection pages, keyword paths, and paginated product grids so buyers and search engines can navigate them.
+                Products marked as customizable include supported name and number fields on the product page. Check spelling, number choice, and size before adding the item to your bag.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-4" className="rounded-lg border border-border/70 bg-background/50 px-5">
+              <AccordionTrigger className="py-5 text-left font-heading text-lg font-bold hover:no-underline">How do returns work?</AccordionTrigger>
+              <AccordionContent className="pb-5 text-muted-foreground">
+                Return eligibility depends on product condition, timing, and customization status. Customized name, number, or print items may have stricter return limits.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-5" className="rounded-lg border border-border/70 bg-background/50 px-5">
+              <AccordionTrigger className="py-5 text-left font-heading text-lg font-bold hover:no-underline">What does player version or fan version mean?</AccordionTrigger>
+              <AccordionContent className="pb-5 text-muted-foreground">
+                Player version usually means a closer, sharper fit, while fan-style products are usually easier for everyday wear. Check each product page for the fit notes and details shown for that item.
               </AccordionContent>
             </AccordionItem>
           </Accordion>

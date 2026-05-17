@@ -14,18 +14,18 @@ export const collections: Collection[] = [
     id: '1',
     slug: 'football-shirts',
     title: 'Football Shirts',
-    description: 'Main catalog of home, away, third, and special edition shirts.',
+    description: 'Home, away, third, and special edition football shirts.',
     image: 'https://cdn.shopify.com/s/files/1/0684/9783/4240/files/51100_6BackgroundRemoved.png',
-    seoDescription: 'Browse football shirts with clear product photography, prices, size variants, and customizable shirt options.',
-    content: 'Our main catalog features official home, away, third, and special edition football shirts from clubs and national teams worldwide. We focus on curating high-quality kits that blend pitch-ready performance with off-pitch streetwear aesthetics.',
+    seoDescription: 'Browse football shirts and soccer jerseys with clear product photos, prices, size variants, and customization options.',
+    content: 'This collection brings together home, away, third, and special edition football shirts from clubs and national teams worldwide. We focus on clear product pages, useful fit notes, and off-pitch styling context.',
     faqs: [
       {
         question: 'Can I customize these shirts with a name and number?',
-        answer: 'Yes, products marked as customizable offer options to add official or fan-style names and numbers before adding to your bag.'
+        answer: 'Yes, products marked as customizable offer supported options to add names and numbers before adding to your bag.'
       },
       {
-        question: 'Are these shirts authentic?',
-        answer: 'We offer both replica (fan) versions and authentic (player) versions. Check the specific product description for version details.'
+        question: 'How are shirt versions described?',
+        answer: 'Product pages describe the available version, fit, and customization options based on the current product data. Contact support if you need help before ordering.'
       }
     ]
   },
@@ -52,10 +52,10 @@ export const collections: Collection[] = [
     id: '3',
     slug: 'player-version',
     title: 'Player Version',
-    description: 'Authentic and player-fit shirts for a sharper product presentation.',
+    description: 'Player-fit shirts for a sharper product presentation.',
     image: 'https://cdn.shopify.com/s/files/1/0684/9783/4240/files/51116_6BackgroundRemoved.png',
-    seoDescription: 'Explore player version football shirts and authentic-fit jerseys with real product photography.',
-    content: 'Engineered for the pitch. Player version shirts feature advanced, lightweight fabrics, heat-transferred crests, and a sharper, athletic cut identical to what professionals wear on match day.',
+    seoDescription: 'Explore player version football shirts with closer fits, clear product photos, sizing guidance, and customization options where available.',
+    content: 'Player version shirts are selected for shoppers who prefer a closer, sharper football-shirt fit. Product pages keep the focus on photos, sizing guidance, price, and available customization fields.',
     faqs: [
       {
         question: 'Should I size up for player version shirts?',
@@ -63,7 +63,7 @@ export const collections: Collection[] = [
       },
       {
         question: 'What are the main differences from replica shirts?',
-        answer: 'Player versions use highly breathable performance materials, slimmer cuts, and lightweight heat-applied logos rather than embroidered crests to reduce weight and friction.'
+        answer: 'Player version products usually have a closer fit and different construction details from standard fan-style shirts. Check the product page for the specific item details shown.'
       }
     ]
   },
@@ -73,12 +73,12 @@ export const collections: Collection[] = [
     title: 'Women Shirts',
     description: 'Women-fit shirts and kits selected for clear browsing.',
     image: 'https://cdn.shopify.com/s/files/1/0684/9783/4240/files/51100_6BackgroundRemoved.png',
-    seoDescription: 'Browse women football shirts and women-fit kits with clear product images, sizing context, and easy category navigation.',
+    seoDescription: 'Shop women football shirts and soccer jerseys with women-fit sizing context, product photos, and clear buying details.',
     content: 'Football shirts and kits tailored specifically for a women\'s fit. This collection includes national team edits, club releases, and lifestyle pieces designed for comfortable everyday wear and matchday support.',
     faqs: [
       {
         question: 'Do women\'s shirts have the same design details as the men\'s?',
-        answer: 'Yes, the aesthetic details and fabric technologies remain identical to the standard versions, but the cut is specifically tailored for a women\'s silhouette.'
+        answer: 'Women-fit products are grouped to make sizing and browsing easier. Check each product page for the photos, fit notes, and buying details available for that item.'
       }
     ]
   },
@@ -88,7 +88,7 @@ export const collections: Collection[] = [
     title: 'Kids Kits',
     description: 'Kids shirts and full kits grouped into one catalog section.',
     image: 'https://cdn.shopify.com/s/files/1/0684/9783/4240/files/25MK0007-0.png',
-    seoDescription: 'Shop kids football kits and youth football shirts with real catalog product images.',
+    seoDescription: 'Browse kids football kits and youth jerseys with sizing guidance, product photos, prices, and checkout details.',
     content: 'Full football kits and youth-sized shirts for the next generation. Our kids collection features durable, comfortable sets complete with matching shorts, perfect for training or supporting their favorite teams.',
     faqs: [
       {
@@ -107,12 +107,12 @@ export const collections: Collection[] = [
     title: 'Training & Apparel',
     description: 'Training tops, pants, jackets, caps, shorts, and lifestyle apparel.',
     image: 'https://cdn.shopify.com/s/files/1/0684/9783/4240/files/re_1717398597_st-pauli-2024-2025-training-football-pant-dark-chocolate.jpg',
-    seoDescription: 'Browse training wear, football pants, jackets, shorts, caps, and apparel from the imported product catalog.',
+    seoDescription: 'Browse football training apparel, pants, jackets, caps, shorts, and off-pitch pieces with photos, prices, and sizing notes.',
     content: 'Beyond the matchday shirt. This curated selection of training tops, track pants, warm-up jackets, and lifestyle apparel brings football culture into everyday streetwear.',
     faqs: [
       {
         question: 'Are these items suitable for actual football training?',
-        answer: 'Absolutely. While they fit perfectly into a streetwear wardrobe, these pieces are originally designed with moisture-wicking and flexible fabrics built for active performance.'
+        answer: 'Many training and apparel products are suited to casual football styling, layering, and movement. Check the individual product page for the details available for that item.'
       }
     ]
   },
